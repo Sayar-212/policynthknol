@@ -1,19 +1,14 @@
+from sentence_transformers import SentenceTransformer
 from typing import List, Dict, Any
-import gc
+from config.settings import settings
+import hashlib
+import json
 
 class EmbeddingService:
     def __init__(self):
-        """Initialize with lazy loading to save memory"""
-        self.model = None
-        self.dimension = 384
-    
-    def _load_model(self):
-        """Lazy load model only when needed"""
-        if self.model is None:
-            from sentence_transformers import SentenceTransformer
-            self.model = SentenceTransformer('all-MiniLM-L6-v2')
-            # Force garbage collection
-            gc.collect()
+        """Initialize with sentence-transformers for local embeddings"""
+        self.model = SentenceTransformer('all-MiniLM-L6-v2')
+        self.dimension = 384  # all-MiniLM-L6-v2 dimension
     
     def encode_texts(self, texts: List[str], metadatas: List[Dict[str, Any]] = None) -> List[List[float]]:
         """Generate embeddings with memory optimization"""
