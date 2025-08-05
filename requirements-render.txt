@@ -11,4 +11,3 @@ pydantic
 numpy
 aiofiles
 httpx
-faiss
