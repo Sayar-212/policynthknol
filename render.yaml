@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: policynth
+    env: python
+    buildCommand: pip install --no-cache-dir -r requirements-render.txt
+    startCommand: python main.py
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: 1
+      - key: PYTHONDONTWRITEBYTECODE
+        value: 1

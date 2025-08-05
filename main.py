@@ -24,8 +24,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize query engine
-query_engine = QueryEngine()
+# Initialize query engine lazily
+query_engine = None
+
+def get_query_engine():
+    global query_engine
+    if query_engine is None:
+        query_engine = QueryEngine()
+    return query_engine
 
 def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
     """Verify bearer token"""
@@ -41,7 +47,7 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
 async def run_query(request: QueryRequest, token: str = Depends(verify_token)):
     """Main endpoint to process document queries"""
     try:
-        response = await query_engine.process_query(request)
+        response = await get_query_engine().process_query(request)
         return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))

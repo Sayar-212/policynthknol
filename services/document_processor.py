@@ -169,8 +169,8 @@ class DocumentProcessor:
         sentences = self._split_into_sentences(text)
         chunks = []
         
-        chunk_size = 150  # Reduced for faster processing
-        overlap_size = 30  # Reduced overlap for speed
+        chunk_size = 100  # Further reduced for memory
+        overlap_size = 20  # Minimal overlap
         
         current_chunk = []
         current_words = 0
